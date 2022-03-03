@@ -1,0 +1,125 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[polish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+
+\addtolength{\hoffset}{-1.5cm}
+\addtolength{\marginparwidth}{-1.5cm}
+\addtolength{\textwidth}{3cm}
+\addtolength{\voffset}{-1cm}
+\addtolength{\textheight}{2.5cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headheight}{0cm}
+
+\begin{document}
+
+\title{Dokumentacja projektu ZPI}
+\author{Dąbrowski Daniel\\ Gródek Damian\\ Jargut Piotr\\ Kocjan Katarzyna\\ Uryga Kamil}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+Zarys dokumentacji projektowej stanowiący podstawę do realizacji projektu \\ zespołowego. 
+\end{abstract}
+
+
+
+\newpage
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+
+
+\newpage
+
+\section{Tytuł: System wspomagający szybkie parkowanie}
+
+\section{Nazwa robocza: Parkingowy}
+
+\section{Cel}
+\begin{quotation}
+Stworzenie systemu wspomagającego znalezienie jak najszybciej \\użytkownikowi aplikacji wolne miejsce na trzypoziomowym parkingu.
+\end{quotation}
+
+\section{Zakres}
+
+\subsection{Analiza wymagań}
+\begin{itemize}
+\item Określenie optymalnego położenia emiterów beacon na podstawie planu parkingu \\i zasięgu emiterów;
+\item Instalacja serwera;
+\item Stworzenie bazy danych i szkieletu aplikacji;
+\item Implementacja systemu zarządzania wolnymi  miejscami;
+\item Instalacja Acesspointów wifi mesh z funkcją emitera beacon;
+\item Implementacja funkcji lokalizacji telefonu na terenie parkingu;
+\item Implementacja systemu komunikacji pomiędzy czujnikami zajętości miejsca a serwerem za pośrednictwem protokołu MQTT;
+\item Implementacja funkcji nawigacji do wolnego miejsca parkingowego;
+\item Rozmieszczenie czujników zajętości miejsca;
+\item Implementacja systemu komunikacji pomiędzy szlabanami a serwerem;
+\item Postawienie szlabanów;
+\item Test;
+\item Gotowy system.
+\end{itemize}
+
+\newpage
+
+\subsection{Wymagania funkcjonalne i niefunkcjonalne}
+{\large \bf Wymagania funkcjonalne :}
+\begin{itemize}
+\item Sprawdzenia ilości wolnych miejsc;
+\item Sprawdzenia ilości zajętych miejsc;
+\item Znalezienia najbliższego wolnego miejsca parkingowego;
+\item Poinformowaniu o ewentualnym braku miejsc na danym piętrze;
+\item Poinformowaniu o zwolnieniu najbliższego wolnego miejsca;
+\item Aplikacja doprowadza na najbliższe miejsce parkingowe za pomocą systemu lokalizacji opartego na beacon.
+\end{itemize}
+{\large \bf Wymagania niefunkcjonalne:}
+\begin{itemize}
+\item Aplikacja powinna być darmowa;
+\item Aplikacja powinna mieć intuicyjny i przejrzysty interfejs;
+\item Aplikacja powinna być kompatybilna z większością urządzeń aby mogło używać jej jak najwięcej użytkowników.
+\end{itemize}
+
+\subsection{Diagram przypadków użycia i diagram przepływu (opcjonalny)}
+\begin{figure}[htb!p]
+\includegraphics[width=0.9\textwidth]{Untitled Diagram.png}
+\caption{Diagram przypadków użycia}
+\end{figure}
+
+\subsection{Dobór technologii}
+\begin{itemize}
+\item Emitery beacon pracujące na protokole BT low energy(Access point’y zintegrowane \\z emiterami Beacon);
+\item Magnetyczne czujniki zajętości miejsca (wifi,MQTT);
+\item Windows Server;
+\item Program RabitMQTT, Mosquito;
+\item Android Studio(język JAVA);
+\item C\# (opcjonalne);
+\item Unity (opcjonalne).
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\section{Scenariusze}
+%(tytuł, numer, aktorzy, stan wejścia (warunki + dane), przebieg scenariusza, wynik, scenariusz alternatywny, jeśli istnieje)
+%\section{Estymacja czasowa}
+%(poszczególnych zadań jak i określenie wymagań MVP oraz terminu końcowego oddania)
+%\section{Implementacja}
+%\section{Testy i ich wyniki}
+%\section{Podsumowanie i bilans}
+%(MVP vs rzeczywistość)
+\end{document}
