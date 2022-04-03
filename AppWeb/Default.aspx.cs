@@ -12,4 +12,10 @@ public partial class _Default : System.Web.UI.Page
     {
         Session["Miejsce_Id"] = (sender as ASPxGridView).GetMasterRowKeyValue();
     }
+
+    protected void ASPxRefresh_Click(object sender, EventArgs e)
+    {
+        ASPxGridParkingowy.DataBind();
+        ASPxGridParkStats.DataBind();
+    }
 }
