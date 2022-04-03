@@ -17,5 +17,6 @@ public partial class _Default : System.Web.UI.Page
     {
         ASPxGridParkingowy.DataBind();
         ASPxGridParkStats.DataBind();
+        ASPxGridBeacony.DataBind();
     }
 }

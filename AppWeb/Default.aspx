@@ -112,6 +112,25 @@
                                     </dx:ContentControl>
                                 </ContentCollection>
                             </dx:TabPage>
+                            <dx:TabPage Text="Beacony">
+                                <ContentCollection>
+                                    <dx:ContentControl>
+                                        <dx:ASPxGridView runat="server" ID="ASPxGridBeacony" DataSourceID="SQLxGridBeacony" Width="600px" KeyFieldName="Beacon_Id">
+                                            <Columns>
+                                                <dx:GridViewDataTextColumn FieldName="Beacon_Id" Caption="Id" Width="70px"></dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Beacon_UId" Caption="UId"></dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Beacon_PietroSektor" Caption="Piętro i Sektor" Width="40px"></dx:GridViewDataTextColumn>
+                                                <dx:GridViewBandColumn Caption="Koordynaty">
+                                                    <Columns>
+                                                            <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyX" Caption="X" Width="50px"></dx:GridViewDataTextColumn>
+                                                            <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyY" Caption="Y" Width="50px"></dx:GridViewDataTextColumn>
+                                                    </Columns>
+                                                </dx:GridViewBandColumn>
+                                            </Columns>
+                                        </dx:ASPxGridView>
+                                    </dx:ContentControl>
+                                </ContentCollection>
+                            </dx:TabPage>
                         </TabPages>
                     </dx:ASPxPageControl>
                 </td>
@@ -157,6 +176,12 @@
         </table>
         <asp:SqlDataSource runat="server" ID="SQLxGridParkStats" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
             SelectCommand="dbs_Parkingowy_Stats" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+        <asp:SqlDataSource runat="server" ID="SQLxGridBeacony" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
+            SelectCommand="dbs_Parkingowy_Beacony" SelectCommandType="StoredProcedure">
+            <SelectParameters>
+                <asp:ControlParameter ControlID="ASPxComboBox_Sektor" Name="Sektor" />
+            </SelectParameters>
+        </asp:SqlDataSource>
         <asp:SqlDataSource runat="server" ID="SQLxGridParkingowy" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
             SelectCommand="dbs_Parkingowy_Select" SelectCommandType="StoredProcedure">
             <SelectParameters>
