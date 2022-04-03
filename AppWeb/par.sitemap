@@ -3,7 +3,6 @@
   <siteMapNode url="~/"   description="Root" title="Root">
     
     <siteMapNode url="~/Default.aspx" title="System Parkingowy"  description="Strona główna" />
-    <siteMapNode url="~/PlanParkingu.aspx" title="Mapa Planu Parkingu"  description="Strona główna" />
     
     <siteMapNode url="~/System/System.aspx" title="System"  description="System">
       <siteMapNode url="~/System/Uzytkownicy/Uzytkownicy.aspx" title="Użytkownicy" description="Użytkownicy" />

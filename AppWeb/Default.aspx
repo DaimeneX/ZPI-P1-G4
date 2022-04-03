@@ -24,7 +24,9 @@
                         </Items>
                     </dx:ASPxComboBox>
                 </td>
-                <td style="padding-left: 8px"><dx:ASPxButton runat="server" Text="Odśwież" ID="ASPxRefresh" Font-Size="Larger" OnClick="ASPxRefresh_Click"></dx:ASPxButton></td>
+                <td style="padding-left: 8px">
+                    <dx:ASPxButton runat="server" Text="Odśwież" ID="ASPxRefresh" Font-Size="Larger" OnClick="ASPxRefresh_Click"></dx:ASPxButton>
+                </td>
             </tr>
         </table>
         <br />
@@ -122,8 +124,8 @@
                                                 <dx:GridViewDataTextColumn FieldName="Beacon_PietroSektor" Caption="Piętro i Sektor" Width="40px"></dx:GridViewDataTextColumn>
                                                 <dx:GridViewBandColumn Caption="Koordynaty">
                                                     <Columns>
-                                                            <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyX" Caption="X" Width="50px"></dx:GridViewDataTextColumn>
-                                                            <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyY" Caption="Y" Width="50px"></dx:GridViewDataTextColumn>
+                                                        <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyX" Caption="X" Width="50px"></dx:GridViewDataTextColumn>
+                                                        <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyY" Caption="Y" Width="50px"></dx:GridViewDataTextColumn>
                                                     </Columns>
                                                 </dx:GridViewBandColumn>
                                             </Columns>
@@ -174,6 +176,34 @@
                 </td>
             </tr>
         </table>
+        <div style="width: 1180px; padding-top: 20px;">
+            <table>
+                <tr>
+                    <td>
+                        <dx:ASPxPageControl runat="server" ID="ASPxPageControl1" ActiveTabIndex="0">
+                            <TabPages>
+                                <dx:TabPage Text="Parter">
+                                    <ContentCollection>
+                                        <dx:ContentControl>
+                                            <dx:ASPxImage runat="server" ImageUrl="~/PlanParkingu/parter.png" Height="740px"></dx:ASPxImage>
+                                        </dx:ContentControl>
+                                    </ContentCollection>
+                                </dx:TabPage>
+                                <dx:TabPage Text="Poziom -1">
+                                    <ContentCollection>
+                                        <dx:ContentControl>
+                                            <dx:ASPxImage runat="server" ImageUrl="~/PlanParkingu/minus1.png" Height="740px"></dx:ASPxImage>
+                                        </dx:ContentControl>
+                                    </ContentCollection>
+                                </dx:TabPage>
+                            </TabPages>
+                            <TabStyle BackColor="DarkGray"></TabStyle>
+                            <ActiveTabStyle BackColor="White"></ActiveTabStyle>
+                        </dx:ASPxPageControl>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <asp:SqlDataSource runat="server" ID="SQLxGridParkStats" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
             SelectCommand="dbs_Parkingowy_Stats" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
         <asp:SqlDataSource runat="server" ID="SQLxGridBeacony" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
