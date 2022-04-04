@@ -31,7 +31,7 @@ Zarys dokumentacji projektowej stanowiący podstawę do realizacji projektu \\ z
 \newpage
 
 \tableofcontents
-\listoftables
+%\listoftables
 \listoffigures
 
 
@@ -102,18 +102,14 @@ Przewidywany termin ukończenia projektu 10 Maja.
 \item Czujnik zajętości miejsca powinien wysyłać stan baterii do serwera MSSQL w przypadku kiedy poziom naładowania baterii spadnie poniżej 10\%;
 \item Administrator za pomocą aplikacji webowej powinien mieć wgląd na status czujników zajętości i ich poziom naładowania baterii;
 \item Serwer MSSQL powinien przeliczać ilość wolnych miejsc w momencie odebrania\\informacji o zmianie statusu któregokolwiek z nich;
-\item Aplikacja mobilna powinna przekazać informację gdzie znajduje się najbliższe wolne miejsce;
 \item Aplikacja mobilna powinna wyświetlać aktualna informacje o ilości wolnych miejsc, która jest na bieżąco aktualizowana z bazy danych MSSQL w momencie ponownego przeliczenia wolnych miejsc;
-\item Aplikacja mobilna powinna móc komunikatem głosowym przekazać informacje\\o ewentualnym braku miejsc na aktualnym piętrze;
-\item Aplikacja mobilna, powinna komunikatem głosowym poinformować użytkownika\\o najbliższym wolnym miejscu parkingowym;
 \item Zmiana statusu zajętości któregokolwiek z miejsc spowoduje wywołanie funkcji\\obliczającej zajętość miejsc w danych sektorach bądź piętrach. Za pomocą protokołu MQTT wysłana zostanie informacja do sterownika WEMOS, który wyświetli ilość\\wolnych miejsc na tablicy znajdującej się w pobliżu węzłów komunikacyjnych;
 \item Aplikacja mobilna, za pomocą triangulacji, będzie wyznaczać aktualną pozycję pojazdu w przestrzeni dwuwymiarowej względem nadajników beacon;
 \item Aplikacja mobilna zapewni możliwość zapisania w bazie danych aktualnej lokalizacji samocho użytkownika poprzez wybranie odpowiedniej opcji, co umożliwi zlokalizowanie zaparkowanego samochodu;
 \item Aplikacja mobilna poprzez wybór opcji znalezienia samochodu, pobierze koordynaty zaparkowanego samochodu z bazy danych oraz wyznaczy aktualną pozycję użytkownika. Aplikacja wyświetla położenie użytkownika i jego samochodu;
 \item Aplikacja mobilna, na podstawie id użytkownika, wygeneruje unikalny kod QR,\\za pomocą którego rejestrowany będzie wjazd oraz wyjazd z parkingu;
 \item Skaner za pomocą transmisji szeregowej wyśle identyfikator użytkownika do bloku serial na serwerze node-red. Zostanie wywołana funkcja z procedurą SQL zmieniającą status użytkownika oraz zapisującą aktualną datę i godzinę wjazdu i wyjazdu;
-\item System umożliwi użytkownikom rejestrację oraz logowanie do aplikacji mobilnej;
-\item Nadajniki beacon wysyłają poprzez protokół  MQTT do serwera informacje o stanie baterii. Stan baterii można sprawdzić w aplikacji webowej będąc zalogowanym na konto administratora.
+\item System umożliwi użytkownikom rejestrację oraz logowanie do aplikacji mobilnej.
 \end{itemize}
 {\large \bf Wymagania niefunkcjonalne:}
 \begin{itemize}
@@ -145,7 +141,8 @@ Przewidywany termin ukończenia projektu 10 Maja.
 \item Android Studio(język JAVA);
 \item Node-RED;
 \item MSSQL;
-\item ASP NET 4.8  (C\#).
+\item ASP NET 4.8  (C\#);
+\item DevExpress 20.1.6.
 \end{itemize}
 
 
@@ -162,7 +159,6 @@ Warunek: Posiadanie aplikacji, znalezienie się przy wjeździe do parkingu.
 \\{\bf Przebieg scenariusza:}
 \begin{enumerate}
 \item Użytkownik rejestruje wjazd na parking skanując kod QR aplikacji przy szlabanie,\\informacja zawierająca ID użytkownika przekazywana jest portem szeregowym\\do serwera. W bazie danych zmieniany jest status użytkownika;
-\item Użytkownik otrzymuje sugestie głosowe mówiące o ilości wolnych miejsc w oddalonych sektorach parkingu;
 \item Użytkownik obserwuje monitory znajdujące się na węzłach komunikacyjnych\\informujące o ilości wolnych miejsc w najbliższym sektorze;
 \item Użytkownik parkuje samochód  na odpowiadającym mu miejscu. Czujnik zajętości\\rejestruje zajęcie miejsca parkingowego, wysyła informację o zmianie statusu miejsca\\na “zajęte” do serwera.
 \end{enumerate}
@@ -181,7 +177,7 @@ Warunek: Użytkownik ma już zaparkowane auto na parkingu.
 \item Użytkownik rejestruje wyjazd z parkingu. Informacja zawierająca Id użytkownika jest przekazywana portem szeregowym do serwera. Wprowadzana jest zmiana statusu użytkownika w bazie danych oraz zerowana jest zapisana lokalizacja samochodu.
 \end{enumerate}
 {\bf Wynik:} Użytkownik opuszcza parking.
-\newline\newline\newline\newline\newline\newline\newline
+\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline
 {\large \bf Scenariusz:} Lokalizacja zaparkowanego samochodu
 \\{\bf Nr:} 03
 \\{\bf Aktor:} Użytkownik aplikacji mobilnej
@@ -265,10 +261,10 @@ Warunek: Tworzenie nowego konta przez użytkownika.
 \\{\bf Przebieg scenariusza:}
 \begin{enumerate}
 \item Użytkownik wpisuje swoje dane;
-\item System logowania po otrzymaniu danych użytkownika tworzy oryginalny kod QR.
+\item Aplikacja mobilna generuje kod QR  na podstawie UUID użytkownika wygenerowanego w bazie danych podczas tworzenia konta.
 \end{enumerate}
-{\bf Wynik:} Użytkownik dostaje na swoje konto wygenerowany kod QR.
-\newline\newline\newline\newline\newline\newline
+{\bf Wynik:} Aplikacja generuje kod QR.
+\newline\newline\newline\newline\newline
 {\large \bf Scenariusz:} Logowanie się do aplikacji
 \\{\bf Nr:} 08
 \\{\bf Aktor:} Użytkownik aplikacji mobilnej / webowej
@@ -299,19 +295,19 @@ Warunek: Użytkownik posiada już zarejestrowane konto.
 \\{\bf Przebieg scenariusza:}
 \begin{enumerate}
 \item Użytkownik włącza aplikacje i przechodzi do ustawień gdzie wybiera opcje wylogowania;
-\item Użytkownik po wylogowaniu ponownie może się zalogować.
+\item Użytkownik po wylogowaniu może ponownie się zalogować.
 \end{enumerate}
 {\bf Wynik:} Użytkownik wylogował się z aplikacji mobilnej / webowej.
 \newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline
 {\large \bf Scenariusz:} Zarejestrowanie nowego konta
 \\{\bf Nr:} 10
-\\{\bf Aktor:} Użytkownik aplikacji mobilnej / webowej
+\\{\bf Aktor:} Użytkownik aplikacji mobilnej
 \\{\bf Stan wejścia:}
 
 Warunek: Użytkownik ma zainstalowaną aplikacje.
 \\{\bf Przebieg scenariusza:}
 \begin{enumerate}
-\item Użytkownik wprowadza dane osobiste wymagane do utworzenia nowego konta (login, hasło, imię, nazwisko, adres, e-mail, nr. telefonu);
+\item Użytkownik wprowadza dane osobiste wymagane do utworzenia nowego konta\\(login, hasło, imię, nazwisko, adres, e-mail, nr. telefonu);
 \item Wygenerowanie nowego kodu QR (scenariusz 7);
 \item Aktualizacja bazy użytkowników.
 \end{enumerate}
@@ -349,7 +345,7 @@ Warunek: Posiadanie aplikacji mobilnej.
 \item Przybliża telefon do czujnika gdzie jest skanowany kod QR;
 \item Po zeskanowaniu kodu szlaban zostaje podniesiony.
 \end{enumerate}
-{\bf Wynik:} Użytkownik wjeżdża / wyjeżdża na parking.
+{\bf Wynik:} Użytkownik wjeżdża / wyjeżdża z parkingu.
 \newline\newline
 {\large \bf Scenariusz:} Przeliczenie ilości wolnych miejsc w strefie której doszło do zmiany stanu czujnika
 \\{\bf Nr:} 13
@@ -421,7 +417,7 @@ Warunek: Użytkownik stracił dostęp do aplikacji mobilnej i nie może opuści�
 \end{enumerate}
 {\bf Wynik:} Użytkownik otrzymuje bilet z kodem QR do opuszczenia parkingu.
 \newline\newline
-{\large \bf Scenariusz:} Sprawdzenie ilości dostępnych miejsc parkingowych przez użytkownika na telefonie
+{\large \bf Scenariusz:} Sprawdzenie ilości dostępnych miejsc parkingowych przez użytkownika\\na telefonie
 \\{\bf Nr:} 18
 \\{\bf Aktor:} Użytkownik aplikacji mobilnej
 \\{\bf Stan wejścia:}
@@ -434,22 +430,8 @@ Warunek: Posiadanie Aplikacji .
 \end{enumerate}
 {\bf Wynik:} Użytkownik otrzymuje informacje o ilości wolnych miejsc na danym piętrze.
 \newline\newline
-{\large \bf Scenariusz:} Wymiana baterii w beaconach
-\\{\bf Nr:} 19
-\\{\bf Aktor:} Administrator
-\\{\bf Stan wejścia:}
-
-Warunek: Rozładowanie baterii w beaconach.
-\\{\bf Przebieg scenariusza:}
-\begin{enumerate}
-\item Beacony na bieżąco wysyłają informacje o stanie baterii do serwera;
-\item Administrator odczytuje w aplikacji web poziom naładowania baterii;
-\item Administrator wymienia w wymaganych beaconach baterie.
-\end{enumerate}
-{\bf Wynik:} Beacony działają dalej sprawnie dzięki wymienionym bateriom.
-\newline\newline\newline\newline\newline
 {\large \bf Scenariusz:} Sprawdzenie stanu czujników zajętości miejsca
-\\{\bf Nr:} 20
+\\{\bf Nr:} 19
 \\{\bf Aktor:} Administrator
 \\{\bf Stan wejścia:}
 
@@ -475,6 +457,8 @@ Warunek: Zepsuty czujnik zajętości miejsca.
 \end{center}
 \end{figure}
 
+\section{Implementacja}
+	Implementacja  symulacji pracy czujników zajętości miejsca przy pomocy Node -Red i Brokera MQTT. Symulacja  pokazuje przepływ informacji oraz zapis do bazy danych na podstawie danych otrzymanych z czujnika. Zasymulowany został również  przepływ informacji pomiędzy  serwerem mssql a kontrolerami oświetlenia sygnalizacyjnego oraz ekranami wyświetlającymi ilość wolnych miejsc.
 
 
 
@@ -492,9 +476,6 @@ Warunek: Zepsuty czujnik zajętości miejsca.
 
 
 
-
-%(poszczególnych zadań jak i określenie wymagań MVP oraz terminu końcowego oddania)
-%\section{Implementacja}
 %\section{Testy i ich wyniki}
 %\section{Podsumowanie i bilans}
 %(MVP vs rzeczywistość)
