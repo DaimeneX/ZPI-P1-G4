@@ -10,7 +10,7 @@ public partial class MasterPage_MasterPage : System.Web.UI.MasterPage
     protected void Page_Load(object sender, EventArgs e)
     {
         string HeaderTXT = "";
-        HeaderTXT = SiteMap.CurrentNode != null ? SiteMap.CurrentNode.Title : "Z-Liga";
+        HeaderTXT = SiteMap.CurrentNode != null ? SiteMap.CurrentNode.Title : "Parkingowy";
         lbHeader.Text = HeaderTXT; // HeaderTXTPar + " - " + HeaderTXT;
         Page.Title = HeaderTXT;
     }

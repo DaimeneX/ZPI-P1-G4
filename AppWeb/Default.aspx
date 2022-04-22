@@ -38,20 +38,22 @@
                             <dx:TabPage Text="Miejsca Parkingowe">
                                 <ContentCollection>
                                     <dx:ContentControl>
-                                        <dx:ASPxGridView runat="server" ID="ASPxGridParkingowy" DataSourceID="SQLxGridParkingowy" Width="600px" KeyFieldName="Miejsce_Id">
+                                        <dx:ASPxGridView runat="server" ID="ASPxGridParkingowy" DataSourceID="SQLxGridParkingowy" Width="600px" KeyFieldName="Miejsce_Id"
+                                            OnStartRowEditing="ASPxGridParkingowy_StartRowEditing" StylesEditors-ReadOnly-BackColor="Gray"
+                                             >
                                             <SettingsDetail ShowDetailRow="true" />
                                             <SettingsPager>
                                                 <PageSizeItemSettings Visible="true"></PageSizeItemSettings>
                                             </SettingsPager>
                                             <Settings ShowFilterRow="true" ShowFilterBar="Visible" />
                                             <FormatConditions>
-                                                <dx:GridViewFormatConditionHighlight FieldName="Miejsce_StatuSBaterii" Format="Custom" Expression="Miejsce_StatuSBaterii > '2.0'">
+                                                <dx:GridViewFormatConditionHighlight FieldName="Miejsce_StatusBaterii" Format="Custom" Expression="Miejsce_StatusBaterii >= '2.0'">
                                                     <CellStyle BackColor="Green" ForeColor="White"></CellStyle>
                                                 </dx:GridViewFormatConditionHighlight>
-                                                <dx:GridViewFormatConditionHighlight FieldName="Miejsce_StatuSBaterii" Format="Custom" Expression="Miejsce_StatuSBaterii < '2.0'">
+                                                <dx:GridViewFormatConditionHighlight FieldName="Miejsce_StatusBaterii" Format="Custom" Expression="Miejsce_StatusBaterii < '2.0'">
                                                     <CellStyle BackColor="Yellow" ForeColor="Black"></CellStyle>
                                                 </dx:GridViewFormatConditionHighlight>
-                                                <dx:GridViewFormatConditionHighlight FieldName="Miejsce_StatuSBaterii" Format="Custom" Expression="Miejsce_StatuSBaterii < '1.0'">
+                                                <dx:GridViewFormatConditionHighlight FieldName="Miejsce_StatusBaterii" Format="Custom" Expression="Miejsce_StatusBaterii <= '1.0'">
                                                     <CellStyle BackColor="Red" ForeColor="Black"></CellStyle>
                                                 </dx:GridViewFormatConditionHighlight>
 
@@ -66,12 +68,37 @@
                                                 </dx:GridViewFormatConditionHighlight>
                                             </FormatConditions>
                                             <Columns>
-                                                <dx:GridViewDataTextColumn FieldName="Miejsce_Id" Caption="Miejsce parkingowe"></dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Miejsce_Id" Caption="Miejsce parkingowe" >
+                                                    <EditFormSettings Visible="True" VisibleIndex="0" />
+                                                </dx:GridViewDataTextColumn>
                                                 <dx:GridViewDataCheckColumn FieldName="Miejsce_CzyZajete" Caption="Czy zajęte?" Width="40px">
                                                     <PropertiesCheckEdit DisplayTextChecked="Tak" DisplayTextUnchecked="Nie"></PropertiesCheckEdit>
+                                                    <EditFormSettings Visible="True" VisibleIndex="5" />
                                                 </dx:GridViewDataCheckColumn>
-                                                <dx:GridViewDataTextColumn FieldName="Miejsce_StatuSBaterii" Caption="Napięcie baterii" Width="100px"></dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Miejsce_StatusBaterii" Caption="Napięcie baterii" Width="100px">
+                                                    <EditFormSettings Visible="True" VisibleIndex="1" />
+                                                </dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Miejsce_UIDCzujnika" Caption="UID" Visible="false">
+                                                    <EditFormSettings Visible="True" VisibleIndex="2" ColumnSpan="2" />
+                                                </dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Miejsce_KoordynatyX" Caption="Koordynaty X" Visible="false">
+                                                    <EditFormSettings Visible="True" VisibleIndex="3" />
+                                                </dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Miejsce_KoordynatyY" Caption="Koordynaty Y" Visible="false">
+                                                    <EditFormSettings Visible="True" VisibleIndex="4" />
+                                                </dx:GridViewDataTextColumn>
+                                                <dx:GridViewCommandColumn ShowNewButtonInHeader="true" ShowEditButton="true" Width="20px" ButtonRenderMode="Secondary"></dx:GridViewCommandColumn>
                                             </Columns>
+                                            <SettingsCommandButton>
+                                                <NewButton Text="+" Styles-Style-ForeColor="LightGreen" Styles-Style-Font-Bold="true" Styles-Style-Font-Size="Large">
+                                                </NewButton>
+                                                <EditButton Text="e" Styles-Style-ForeColor="LightBlue" Styles-Style-Font-Bold="true" Styles-Style-Font-Size="Large">
+                                                </EditButton>
+                                                <UpdateButton Text="Zapisz" Styles-Style-ForeColor="LightGreen" Styles-Style-Font-Bold="true">
+                                                </UpdateButton>
+                                                <CancelButton Text="Anuluj" Styles-Style-ForeColor="Red" Styles-Style-Font-Bold="true">
+                                                </CancelButton>
+                                            </SettingsCommandButton>
 
                                             <Templates>
                                                 <DetailRow>
@@ -117,18 +144,41 @@
                             <dx:TabPage Text="Beacony">
                                 <ContentCollection>
                                     <dx:ContentControl>
-                                        <dx:ASPxGridView runat="server" ID="ASPxGridBeacony" DataSourceID="SQLxGridBeacony" Width="600px" KeyFieldName="Beacon_Id">
+                                        <dx:ASPxGridView runat="server" ID="ASPxGridBeacony" DataSourceID="SQLxGridBeacony" Width="600px" KeyFieldName="Beacon_Id"
+                                            OnStartRowEditing="ASPxGridBeacony_StartRowEditing" StylesEditors-ReadOnly-BackColor="Gray">
+                                            <SettingsEditing EditFormColumnCount="3"></SettingsEditing>
                                             <Columns>
-                                                <dx:GridViewDataTextColumn FieldName="Beacon_Id" Caption="Id" Width="70px"></dx:GridViewDataTextColumn>
-                                                <dx:GridViewDataTextColumn FieldName="Beacon_UId" Caption="UId"></dx:GridViewDataTextColumn>
-                                                <dx:GridViewDataTextColumn FieldName="Beacon_PietroSektor" Caption="Piętro i Sektor" Width="40px"></dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Beacon_Id" Caption="Id" Width="70px">
+                                                    <EditFormSettings VisibleIndex="0" />
+                                                </dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Beacon_UId" Caption="UId">
+                                                    <EditFormSettings VisibleIndex="2" ColumnSpan="3" />
+                                                </dx:GridViewDataTextColumn>
+                                                <dx:GridViewDataTextColumn FieldName="Beacon_PietroSektor" Caption="Piętro i Sektor" Width="40px">
+                                                    <EditFormSettings Visible="True" VisibleIndex="3" />
+                                                </dx:GridViewDataTextColumn>
                                                 <dx:GridViewBandColumn Caption="Koordynaty">
                                                     <Columns>
-                                                        <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyX" Caption="X" Width="50px"></dx:GridViewDataTextColumn>
-                                                        <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyY" Caption="Y" Width="50px"></dx:GridViewDataTextColumn>
+                                                        <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyX" Caption="X" Width="50px">
+                                                            <EditFormSettings Caption="Koordynaty X" VisibleIndex="1" />
+                                                        </dx:GridViewDataTextColumn>
+                                                        <dx:GridViewDataTextColumn FieldName="Beacon_KoordynatyY" Caption="Y" Width="50px">
+                                                            <EditFormSettings Caption="Koordynaty Y" VisibleIndex="1" />
+                                                        </dx:GridViewDataTextColumn>
                                                     </Columns>
                                                 </dx:GridViewBandColumn>
+                                                <dx:GridViewCommandColumn ShowNewButtonInHeader="true" ShowEditButton="true" Width="10px" ButtonRenderMode="Secondary"></dx:GridViewCommandColumn>
                                             </Columns>
+                                            <SettingsCommandButton>
+                                                <NewButton Text="+" Styles-Style-ForeColor="LightGreen" Styles-Style-Font-Bold="true" Styles-Style-Font-Size="Large">
+                                                </NewButton>
+                                                <EditButton Text="e" Styles-Style-ForeColor="LightBlue" Styles-Style-Font-Bold="true" Styles-Style-Font-Size="Large">
+                                                </EditButton>
+                                                <UpdateButton Text="Zapisz" Styles-Style-ForeColor="LightGreen" Styles-Style-Font-Bold="true">
+                                                </UpdateButton>
+                                                <CancelButton Text="Anuluj" Styles-Style-ForeColor="Red" Styles-Style-Font-Bold="true">
+                                                </CancelButton>
+                                            </SettingsCommandButton>
                                         </dx:ASPxGridView>
                                     </dx:ContentControl>
                                 </ContentCollection>
@@ -207,16 +257,54 @@
         <asp:SqlDataSource runat="server" ID="SQLxGridParkStats" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
             SelectCommand="dbs_Parkingowy_Stats" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
         <asp:SqlDataSource runat="server" ID="SQLxGridBeacony" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
-            SelectCommand="dbs_Parkingowy_Beacony" SelectCommandType="StoredProcedure">
+            SelectCommand="dbs_Parkingowy_Beacony" SelectCommandType="StoredProcedure"
+            UpdateCommand="dbs_Parkingowy_Beacony_Update" UpdateCommandType="StoredProcedure"
+            InsertCommand="dbs_Parkingowy_Beacony_Insert" InsertCommandType="StoredProcedure">
             <SelectParameters>
                 <asp:ControlParameter ControlID="ASPxComboBox_Sektor" Name="Sektor" />
             </SelectParameters>
+            
+            <InsertParameters>
+                <asp:Parameter Name="Beacon_Id" />
+                <asp:Parameter Name="Beacon_UId" />
+                <asp:Parameter Name="Beacon_PietroSektor" />
+                <asp:Parameter Name="Beacon_KoordynatyX" />
+                <asp:Parameter Name="Beacon_KoordynatyY" />
+            </InsertParameters>
+
+            <UpdateParameters>
+                <asp:Parameter Name="Beacon_Id" />
+                <asp:Parameter Name="Beacon_UId" />
+                <asp:Parameter Name="Beacon_PietroSektor" />
+                <asp:Parameter Name="Beacon_KoordynatyX" />
+                <asp:Parameter Name="Beacon_KoordynatyY" />
+            </UpdateParameters>
         </asp:SqlDataSource>
-        <asp:SqlDataSource runat="server" ID="SQLxGridParkingowy" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
-            SelectCommand="dbs_Parkingowy_Select" SelectCommandType="StoredProcedure">
+        <asp:SqlDataSource runat="server" ID="SQLxGridParkingowy" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
+            SelectCommand="dbs_Parkingowy_Select" SelectCommandType="StoredProcedure"
+            InsertCommand="dbs_Parkingowy_Insert" InsertCommandType="StoredProcedure"
+            UpdateCommand="dbs_Parkingowy_Update" UpdateCommandType="StoredProcedure">
             <SelectParameters>
                 <asp:ControlParameter ControlID="ASPxComboBox_Sektor" Name="Sektor" />
             </SelectParameters>
+
+            <InsertParameters>
+                <asp:Parameter Name="Miejsce_Id" />
+                <asp:Parameter Name="Miejsce_CzyZajete" DefaultValue="0" />
+                <asp:Parameter Name="Miejsce_StatusBaterii" />
+                <asp:Parameter Name="Miejsce_UIDCzujnika" />
+                <asp:Parameter Name="Miejsce_KoordynatyX" />
+                <asp:Parameter Name="Miejsce_KoordynatyY" />
+            </InsertParameters>
+
+            <UpdateParameters>
+                <asp:Parameter Name="Miejsce_Id" />
+                <asp:Parameter Name="Miejsce_CzyZajete" />
+                <asp:Parameter Name="Miejsce_StatusBaterii" />
+                <asp:Parameter Name="Miejsce_UIDCzujnika" />
+                <asp:Parameter Name="Miejsce_KoordynatyX" />
+                <asp:Parameter Name="Miejsce_KoordynatyY" />
+            </UpdateParameters>
         </asp:SqlDataSource>
     </div>
 </asp:Content>

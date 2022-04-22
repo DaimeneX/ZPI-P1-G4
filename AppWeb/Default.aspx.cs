@@ -21,4 +21,37 @@ public partial class _Default : System.Web.UI.Page
         ASPxGridALL.DataBind();
         ASPxGridALLZajete.DataBind();
     }
+
+    protected void ASPxGridParkingowy_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+    {
+        
+        if (ASPxGridParkingowy.IsEditing)
+        {
+            ASPxGridView gridView = sender as ASPxGridView;
+            for (int i = 0; i < gridView.Columns.Count; i++)
+                if (gridView.Columns[i] is GridViewDataColumn)
+                {
+
+                    GridViewDataColumn column = gridView.Columns[i] as GridViewDataColumn;
+                    if (column.FieldName == "Miejsce_Id") column.ReadOnly = true;
+
+                }
+        }
+    }
+
+    protected void ASPxGridBeacony_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
+    {
+        if (ASPxGridBeacony.IsEditing)
+        {
+            ASPxGridView gridView = sender as ASPxGridView;
+            for (int i = 0; i < gridView.Columns.Count; i++)
+                if (gridView.Columns[i] is GridViewDataColumn)
+                {
+
+                    GridViewDataColumn column = gridView.Columns[i] as GridViewDataColumn;
+                    if (column.FieldName == "Miejsce_Id") column.ReadOnly = true;
+
+                }
+        }
+    }
 }
