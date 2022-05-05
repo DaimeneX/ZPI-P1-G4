@@ -1,5 +1,7 @@
 AppWeb/Web.config
+NodeJS/sqlconfig.js
 licenses.licx
 App_Licenses.dll
 Thumbs.db
 ./Haslo.txt
+.vs

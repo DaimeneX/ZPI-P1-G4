@@ -1,0 +1,23 @@
+{
+  "name": "RestAPI",
+  "version": "1.0 Alpha",
+  "description": "Rest API do łączenia aplikacji mobilnej z serwerem SQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npm/npm.git"
+  },
+    "dependencies": {
+    "body-parser": "~1.0.1",
+    "cors": "2.8.1",
+    "express": "~4.0.0",
+    "mssql": "^6.2.1"
+	},
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "author": "Damian Gródek"
+}
