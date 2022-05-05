@@ -14,8 +14,9 @@ app.get('/GetMiejsca', function (req, res) {
     sql.connect(sqlConfig, function() {
         var request = new sql.Request();
         request.query("EXEC dbs_Parkingowy_MiejscaWolne", function(err, recordset) {
-            if(err) console.log(err);
-            res.end(JSON.stringify(recordset)); // Result in JSON format
+            if (err) console.log(err);
+
+            res.end(JSON.stringify(recordset.recordset));
         });
     });
 })
