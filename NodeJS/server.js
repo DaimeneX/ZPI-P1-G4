@@ -64,6 +64,7 @@ app.get('/Wjazd/:UserId', function (req, res) {
         })
     })
 })
+
 app.get('/Odjazd/:UserId', function (req, res) {
     sql.connect(sqlConfig, function() {
         var request = new sql.Request();
