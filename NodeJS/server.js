@@ -13,7 +13,6 @@ function GenerateSecret() {
 }
 setInterval(GenerateSecret, 120000);
 GenerateSecret()
-console.log(accessTokenSecret)
 
 var sqlConfig = require('./sqlconfig.js');
 var server = app.listen(8081, function () {
@@ -29,33 +28,35 @@ const authenticateJWT = (req, res, next) => {
 
         jwt.verify(token, accessTokenSecret, (err, user) => {
             if (err) {
-                return res.end('Forbidden');
+                return res.end(JSON.stringify({Status: "401", Text: "Twój status autoryzacji jest niepoprawny lub wygasł."}));
             }
 
             req.user = user;
             next();
         });
     } else {
-        res.end('Unauthorized');
+        res.end(JSON.stringify({Status: "403", Text: "Zakaz wstepu"}));
     }
 };
 
 
 app.post('/Rejestracja', function (req, res) {
-    const { username, nazwisko, password, email} = req.body
+    const { username, imie, nazwisko, password, email} = req.body
     let buff = new Buffer.from(password, 'base64');
     let passwordDecoded = buff.toString('ascii');
 
     sql.connect(sqlConfig, function() {
         var request = new sql.Request();
         request.input('UserName', username)
+        request.input('UserImie', imie)
         request.input('UserNazwisko', nazwisko)
         request.input('Password', passwordDecoded)
         request.input('Email', email)
-        request.execute('dbs_Parkingowy_Klient_Create', function(err) {
+        request.execute('dbs_Parkingowy_Klient_Create', function(err, recordset) {
             if (err) console.log(err);
 
-            res.send(JSON.stringify({Status: 200}));
+            console.log(recordset.recordset)
+            res.send(JSON.stringify(recordset.recordset));
         });
     });
 })
@@ -71,16 +72,15 @@ app.post('/Login', function (req,res ) {
         request.input('Password', passwordDecoded)
         request.execute('dbs_Parkingowy_Klient_Login', function(err, recordset) {
             if (err) console.log(err);
-
-            var StatusLogowania = (JSON.stringify(recordset.recordset[0].StatusLogowania))
-            var UserId = (recordset.recordset[0].UserId)
-            if (StatusLogowania = "200") {
+            var StatusLogowania = (recordset.recordset[0].StatusLogowania)
+            if (StatusLogowania === "200") {
+                var UserId = (recordset.recordset[0].UserId)
             const accessToken = jwt.sign({ UserId }, accessTokenSecret);
 
-            res.send(JSON.stringify({Token: accessToken}));
+            res.send(JSON.stringify({Status: "200", Token: accessToken}));
         }
             else {
-                res.send(JSON.stringify({Status: "400"}));
+                res.send(JSON.stringify({Status: "400", Text: "Zły login lub hasło"}));
             }
 
         });
@@ -98,13 +98,20 @@ app.get('/GetMiejsca', authenticateJWT, function (req, res) {
     });
 })
 
-app.post('/ZapiszKoordynaty', function (req, res) {
-    const {KordX, KordY, UserId} = req.body
+app.post('/ZapiszKoordynaty', authenticateJWT, function (req, res) {
+    
+    var UserId_Header = req.headers.authorization
+    var UserId_Base64 = UserId_Header.split('.')[1]
+    var buff = new Buffer.from(UserId_Base64, 'base64')
+    var UserId_Decoded = buff.toString('ascii')
+    var UserId_JSON = JSON.parse(UserId_Decoded)
+
+    const {KordX, KordY} = req.body
     sql.connect(sqlConfig, function() {
         var request = new sql.Request();
         request.input('UserKoordynatyX', KordX)
         request.input('UserKoordynatyY', KordY)
-        request.input('UserId', UserID)
+        request.input('UserId', UserId_JSON.UserId)
         request.execute('dbs_Parkingowy_Klient_ZapiszKoordAuta', function(err) {
             if (err) console.log(err);
 
@@ -113,11 +120,16 @@ app.post('/ZapiszKoordynaty', function (req, res) {
     })
 })
 
-app.post('/Wjazd', function (req, res) {
-    const UserId = req.body
+app.post('/Wjazd', authenticateJWT, function (req, res) {
+    var UserId_Header = req.headers.authorization
+    var UserId_Base64 = UserId_Header.split('.')[1]
+    var buff = new Buffer.from(UserId_Base64, 'base64')
+    var UserId_Decoded = buff.toString('ascii')
+    var UserId_JSON = JSON.parse(UserId_Decoded)
+
     sql.connect(sqlConfig, function() {
         var request = new sql.Request();
-        request.input('UserId', UserId)
+        request.input('UserId', UserId_JSON.UserId)
         request.execute('dbs_Parkingowy_Klient_Wjazd', function(err) {
             if (err) console.log(err);
 
@@ -126,11 +138,15 @@ app.post('/Wjazd', function (req, res) {
     })
 })
 
-app.post('/Odjazd', function (req, res) {
-    const UserId = req.body
+app.post('/Odjazd', authenticateJWT, function (req, res) {
+    var UserId_Header = req.headers.authorization
+    var UserId_Base64 = UserId_Header.split('.')[1]
+    var buff = new Buffer.from(UserId_Base64, 'base64')
+    var UserId_Decoded = buff.toString('ascii')
+    var UserId_JSON = JSON.parse(UserId_Decoded)
     sql.connect(sqlConfig, function() {
         var request = new sql.Request();
-        request.input('UserId', UserId)
+        request.input('UserId', UserId_JSON.UserId)
         request.execute('dbs_Parkingowy_Klient_Odjazd', function(err) {
             if (err) console.log(err);
 
