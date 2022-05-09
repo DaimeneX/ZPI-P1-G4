@@ -11,7 +11,7 @@ function GenerateSecret() {
     accessTokenSecret = NewSecret
     module.exports = accessTokenSecret;
 }
-setInterval(GenerateSecret, 120000);
+setInterval(GenerateSecret, 300000);
 GenerateSecret()
 
 var sqlConfig = require('./sqlconfig.js');
@@ -62,7 +62,6 @@ app.post('/Rejestracja', function (req, res) {
 })
 
 app.post('/Login', function (req,res ) {
-    console.log(req.body)
     const { email, password } = req.body;
     let buff = new Buffer.from(password, 'base64');
     let passwordDecoded = buff.toString('ascii');
