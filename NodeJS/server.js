@@ -99,18 +99,17 @@ app.get('/GetMiejsca', authenticateJWT, function (req, res) {
 })
 
 app.post('/ZapiszKoordynaty', authenticateJWT, function (req, res) {
-    
     var UserId_Header = req.headers.authorization
     var UserId_Base64 = UserId_Header.split('.')[1]
     var buff = new Buffer.from(UserId_Base64, 'base64')
     var UserId_Decoded = buff.toString('ascii')
     var UserId_JSON = JSON.parse(UserId_Decoded)
 
-    const {KordX, KordY} = req.body
+    const {UserKoordynatyX, UserKoordynatyY} = req.body
     sql.connect(sqlConfig, function() {
         var request = new sql.Request();
-        request.input('UserKoordynatyX', KordX)
-        request.input('UserKoordynatyY', KordY)
+        request.input('UserKoordynatyX', UserKoordynatyX)
+        request.input('UserKoordynatyY', UserKoordynatyY)
         request.input('UserId', UserId_JSON.UserId)
         request.execute('dbs_Parkingowy_Klient_ZapiszKoordAuta', function(err) {
             if (err) console.log(err);
@@ -120,7 +119,26 @@ app.post('/ZapiszKoordynaty', authenticateJWT, function (req, res) {
     })
 })
 
-app.post('/Wjazd', authenticateJWT, function (req, res) {
+app.post('/OdczytajKoordynaty', authenticateJWT, function (req, res) {
+    
+    var UserId_Header = req.headers.authorization
+    var UserId_Base64 = UserId_Header.split('.')[1]
+    var buff = new Buffer.from(UserId_Base64, 'base64')
+    var UserId_Decoded = buff.toString('ascii')
+    var UserId_JSON = JSON.parse(UserId_Decoded)
+
+    sql.connect(sqlConfig, function() {
+        var request = new sql.Request();
+        request.input('UserId', UserId_JSON.UserId)
+        request.execute('dbs_Parkingowy_Klient_OdczytajKoordAuta', function(err, recordset) {
+            if (err) console.log(err);
+
+            res.send(recordset.recordset);
+        })
+    })
+})
+
+app.get('/Wjazd', authenticateJWT, function (req, res) {
     var UserId_Header = req.headers.authorization
     var UserId_Base64 = UserId_Header.split('.')[1]
     var buff = new Buffer.from(UserId_Base64, 'base64')
@@ -138,7 +156,7 @@ app.post('/Wjazd', authenticateJWT, function (req, res) {
     })
 })
 
-app.post('/Odjazd', authenticateJWT, function (req, res) {
+app.get('/Odjazd', authenticateJWT, function (req, res) {
     var UserId_Header = req.headers.authorization
     var UserId_Base64 = UserId_Header.split('.')[1]
     var buff = new Buffer.from(UserId_Base64, 'base64')
