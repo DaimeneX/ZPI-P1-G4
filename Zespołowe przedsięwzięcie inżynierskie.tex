@@ -31,7 +31,6 @@ Zarys dokumentacji projektowej stanowiący podstawę do realizacji projektu \\ z
 \newpage
 
 \tableofcontents
-%\listoftables
 \listoffigures
 
 
@@ -125,7 +124,7 @@ Przewidywany termin ukończenia projektu 10 Maja.
 \subsection{Diagram przypadków użycia i diagram przepływu (opcjonalny)}
 \begin{figure}[htb!p]
 \begin{center}
-\includegraphics[width=0.9\textwidth]{Untitled_Diagram.drawio_1.png}
+\includegraphics[width=0.9\textwidth]{Untitled Diagram.drawio.png}
 \caption{Diagram przypadków użycia}
 \end{center}
 \end{figure}
@@ -145,10 +144,6 @@ Przewidywany termin ukończenia projektu 10 Maja.
 \item DevExpress 20.1.6.
 \end{itemize}
 
-
-
-\newpage
-
 \section{Scenariusze}
 {\large \bf Scenariusz:} Sugerowanie miejsca parkingowego
 \\{\bf Nr:} 01
@@ -163,7 +158,7 @@ Warunek: Posiadanie aplikacji, znalezienie się przy wjeździe do parkingu.
 \item Użytkownik parkuje samochód  na odpowiadającym mu miejscu. Czujnik zajętości\\rejestruje zajęcie miejsca parkingowego, wysyła informację o zmianie statusu miejsca\\na “zajęte” do serwera.
 \end{enumerate}
 {\bf Wynik:} Użytkownik bez problemu parkuje swój pojazd i zmieniony zostaje status\\użytkownika.
-\newline\newline
+\newline\newline\newline\newline
 {\large \bf Scenariusz:} Zwolnienie miejsca parkingowego
 \\{\bf Nr:} 02
 \\{\bf Aktor:} Użytkownik aplikacji mobilnej
@@ -177,7 +172,7 @@ Warunek: Użytkownik ma już zaparkowane auto na parkingu.
 \item Użytkownik rejestruje wyjazd z parkingu. Informacja zawierająca Id użytkownika jest przekazywana portem szeregowym do serwera. Wprowadzana jest zmiana statusu użytkownika w bazie danych oraz zerowana jest zapisana lokalizacja samochodu.
 \end{enumerate}
 {\bf Wynik:} Użytkownik opuszcza parking.
-\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline
+\newline\newline
 {\large \bf Scenariusz:} Lokalizacja zaparkowanego samochodu
 \\{\bf Nr:} 03
 \\{\bf Aktor:} Użytkownik aplikacji mobilnej
@@ -196,7 +191,7 @@ Warunek: Użytkownik ma już zaparkowane auto na parkingu oraz ma zainstalowaną
 \item Użytkownik jest zmuszony szukać swojego samochodu  bo nie zapisał lokalizacji gdzie zaparkował.
 \end{enumerate}
 {\bf Wynik:} Użytkownik znajduje swój pojazd i opuszcza parking.
-\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline\newline
+\newline\newline\newline\newline\newline\newline\newline\newline\newline
 {\large \bf Scenariusz:} Rozładowanie telefonu
 \\{\bf Nr:} 04
 \\{\bf Aktor:} Użytkownik aplikacji mobilnej
@@ -452,31 +447,89 @@ Warunek: Zepsuty czujnik zajętości miejsca.
 \section{Estymacja czasowa}
 \begin{figure}[htb!p]
 \begin{center}
-\includegraphics[width=0.7\textwidth]{unknown.png}
+\includegraphics[width=0.9\textwidth]{unknown2.png}
 \caption{Estymacja czasowa}
 \end{center}
 \end{figure}
 
 \section{Implementacja}
-	Implementacja  symulacji pracy czujników zajętości miejsca przy pomocy Node -Red i Brokera MQTT. Symulacja  pokazuje przepływ informacji oraz zapis do bazy danych na podstawie danych otrzymanych z czujnika. Zasymulowany został również  przepływ informacji pomiędzy  serwerem mssql a kontrolerami oświetlenia sygnalizacyjnego oraz ekranami wyświetlającymi ilość wolnych miejsc.
+\ \ \ \ \ \ Implementacja  symulacji pracy czujników zajętości miejsca przy pomocy Node -Red i Brokera MQTT. Symulacja  pokazuje przepływ informacji oraz zapis do bazy danych na podstawie danych otrzymanych z czujnika. Zasymulowany został również  przepływ informacji pomiędzy  serwerem mssql a kontrolerami oświetlenia sygnalizacyjnego oraz ekranami wyświetlającymi ilość wolnych miejsc.
 
+Aplikacja Web napisana przy użyciu ASP.NET z biblioteką DevExpress, wykorzystywana do wyświetlania listy miejsc parkingowych, wstawiania nowych, oraz poziomu naładowania czujników zajętości miejsca. Strona pozwala również na sprawdzenie historii zajmowania miejsc parkingowych oraz sprawdzić listę beaconów i wprowadzić nowe beacony do bazy.
 
+Rest API - Wykonany w Node.JS, pozwala na komunikację aplikacji mobilnej z serwerem SQL. Za pomocą tokenów JSON Web Token jest wykonywana autoryzacja użytkownika, po 5 minutach token jest unieważniany.
 
+Aplikacja Mobilna - Łączy się z serwerem Rest API w Node.JS. Pozwala na zarejestrowanie użytkownika, zalogowanie się, pobranie ile jest wolnych miejsc na parkingu. Wykorzystywana jest do zarejestrowania kiedy użytkownik wjechał na parking, na zapisanie gdzie zaparkowany jest samochód i zapisanie kiedy użytkownik wyjechał z parkingu.
 
+Aplikacja łączy się z beaconami w celu ustalenia lokacji użytkownika i samochodu.
 
+Projekt dwóch pięter parkingu z miejscami parkingowymi.
 
+%\begin{figure}[htb!p]
+%\begin{center}
+%\includegraphics[width=0.9\textwidth]{piętro_0.png}
+%\caption{Piętro 0}
+%\end{center}
+%\end{figure}
 
+%\begin{figure}[htb!p]
+%\begin{center}
+%\includegraphics[width=0.9\textwidth]{piętro_-1.png}
+%\caption{Piętro -1}
+%\end{center}
+%\end{figure}
 
+Beacony naniesione na plan parkingu.
 
+\begin{figure}[htb!p]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{beacon_0.png}
+\caption{Beacony piętro 0}
+\end{center}
+\end{figure}
 
+\begin{figure}[htb!p]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{beacon_-1.png}
+\caption{Beacony piętro -1}
+\end{center}
+\end{figure}
 
+\section{Testy i ich wyniki}
+\begin{figure}[htb!p]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{Przechwytywanie.png}
+\caption{Odbiór danych logowania w body}
+\end{center}
+\end{figure}
 
+\begin{figure}[htb!p]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{Przechwytywanie1.png}
+\caption{Postman - Odbiór tokena przy logowaniu}
+\end{center}
+\end{figure}
 
+\section{Podsumowanie i bilans}
+Podsumowanie:
+\newline
 
+Założenia projektu zawarte w wymaganiach funkcjonalnych zostały wypełnione min.
+\begin{itemize}
+\item Komunikacja między czujnikami zajętości miejsca a serwerem Ms Sql;
+\item Aplikacja webowa,system logowania, system zarządzania;
+\item Aplikacja mobilna, rejestracja, logowanie, wyświetlanie ilości wolnych miejsc,\\generowanie QR kodu na podstawie ID użytkownika, zapis bieżącej lokalizacji\\użytkownika, system nawigacji wew. budynkowej na podstawie sygnałów beacon;
+\item System sygnalizacji na parkingu.
+\end{itemize}
+Bilans:
+\newline
 
+Początkowe założenia projektu zawierały system nawigowania do najbliższego wolnego miejsca parkingowego. Po dokładnej analizie tej funkcjonalności doszliśmy do wniosku\\że rezygnujemy z tego systemu ze względu na czynnik ludzki (nie zmusimy człowieka do\\zaparkowania w wyznaczonym miejscu jeśli wcześniej będą wolne miejsca).
+\newline
 
+Po przeanalizowaniu potrzeb użytkowników w późniejszej fazie projektu,  zdecydowaliśmy się na wprowadzenie systemu zapamiętywania lokalizacji zaparkowanego samochodu oraz\\późniejszej nawigacji do pojazdu.
+\newline
 
-%\section{Testy i ich wyniki}
-%\section{Podsumowanie i bilans}
-%(MVP vs rzeczywistość)
+ Pozostałe założenia projektu zostały wykonane w całości.
+
 \end{document}
