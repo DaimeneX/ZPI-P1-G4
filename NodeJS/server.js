@@ -62,6 +62,7 @@ app.post('/Rejestracja', function (req, res) {
 })
 
 app.post('/Login', function (req,res ) {
+    console.log(req.body)
     const { email, password } = req.body;
     let buff = new Buffer.from(password, 'base64');
     let passwordDecoded = buff.toString('ascii');
@@ -72,12 +73,13 @@ app.post('/Login', function (req,res ) {
         request.input('Password', passwordDecoded)
         request.execute('dbs_Parkingowy_Klient_Login', function(err, recordset) {
             if (err) console.log(err);
-            var StatusLogowania = (recordset.recordset[0].StatusLogowania)
+            var StatusLogowania = (recordset.recordset[0].Status)
+            const UserStat = (recordset.recordset[0].UserStatus)
             if (StatusLogowania === "200") {
                 var UserId = (recordset.recordset[0].UserId)
             const accessToken = jwt.sign({ UserId }, accessTokenSecret);
 
-            res.send(JSON.stringify({Status: "200", Token: accessToken}));
+            res.send(JSON.stringify({Status: "200", UserStatus: UserStat, Token: accessToken}));
         }
             else {
                 res.send(JSON.stringify({Status: "400", Text: "Zły login lub hasło"}));
